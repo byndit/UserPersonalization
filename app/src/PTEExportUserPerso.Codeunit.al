@@ -41,7 +41,7 @@ codeunit 80600 "PTE Export User Perso"
                     MetaData := ExportBlob(RecRef, FldRef3);
                 if FldRef4.Type = FldRef4.Type::Blob then
                     ALPage := ExportBlob(RecRef, FldRef4);
-                OutStr.WriteText(Format(FldRef1.Value) + '|' + Format(FldRef2.Value) + '|' + MetaData + '|' + ALPage + '|' + Format(FldRef5.Value) + CrLf);
+                OutStr.WriteText(Format(FldRef1.Value) + '~' + Format(FldRef2.Value) + '~' + MetaData + '~' + ALPage + '~' + Format(FldRef5.Value) + CrLf);
             until RecRef.Next() = 0;
 
             TempBlob.CreateInStream(Instr);

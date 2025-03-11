@@ -62,6 +62,16 @@ page 80600 "PTE User Personalization"
                     ImportUserPerso.Import();
                 end;
             }
+            action(OpenPersonalizedPages)
+            {
+                ApplicationArea = All;
+                Caption = 'Open Personalized Pages';
+                Image = PostponedInteractions;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedOnly = true;
+                RunObject = Page "Personalized Pages";
+            }
         }
     }
 

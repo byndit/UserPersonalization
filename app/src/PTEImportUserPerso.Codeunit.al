@@ -30,6 +30,7 @@ codeunit 80601 "PTE Import User Perso"
 
     procedure InsertRec(NewValue: Text; LineNo: Integer)
     var
+        User: Record "User";
         TempGroups: Record Groups temporary;
         TempMatches: Record Matches temporary;
         RegEx: Codeunit Regex;
@@ -42,13 +43,16 @@ codeunit 80601 "PTE Import User Perso"
         EmitVersion: Integer;
         RegExValue: Text;
     begin
-        RegExValue := StrSubstNo(UseRegExValue, '\|');
+        RegExValue := StrSubstNo(UseRegExValue, '\~');
         RegEx.Match(NewValue, RegExValue, TempMatches);
 
         TempMatches.Get(0);
         RegEx.Groups(TempMatches, TempGroups);
         evaluate(UserIdGuid, TempGroups.ReadValue());
         TempGroups.Get(2);
+
+        if not User.Get(UserIdGuid) then
+            Error('User not found');
 
         TempMatches.Get(1);
         RegEx.Groups(TempMatches, TempGroups);
@@ -82,7 +86,7 @@ codeunit 80601 "PTE Import User Perso"
         FldRef := RecRef.Field(5);
         FldRef.Value := EmitVersion;
         if not RecRef.INSERT() then
-            RecRef.MODIFY();
+            Error('Record already exists! You can only import records if the user does not have any existing records.');
         RecRef.CLOSE();
     end;
 
